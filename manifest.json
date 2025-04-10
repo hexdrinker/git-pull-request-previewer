@@ -2,15 +2,21 @@
   "manifest_version": 3,
   "name": "Pull Request Markdown Previewer",
   "version": "1.0.0",
-  "description": "Reatime(maybe..) Markdown previewer while writing pull request on Github.",
+  "description": "Realtime Markdown preview while writing GitHub Pull Requests.",
   "permissions": ["scripting", "activeTab", "storage"],
   "host_permissions": ["https://github.com/*"],
   "background": {
     "service_worker": "background.js"
   },
+  "icons": {
+    "128": "icon-128.png",
+    "48": "icon-48.png",
+    "32": "icon-32.png"
+  },
   "action": {
     "default_title": "GitHub Markdown Preview",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "icon-48.png"
   },
   "content_scripts": [
     {
