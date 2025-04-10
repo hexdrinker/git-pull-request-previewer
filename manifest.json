@@ -1,0 +1,31 @@
+{
+  "manifest_version": 3,
+  "name": "Pull Request Markdown Previewer",
+  "version": "1.0.0",
+  "description": "Reatime(maybe..) Markdown previewer while writing pull request on Github.",
+  "permissions": ["scripting", "activeTab", "storage"],
+  "host_permissions": ["https://github.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "GitHub Markdown Preview",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://github.com/*/*/compare/*",
+        "https://github.com/*/*/pull/*",
+        "https://github.com/*/pull/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["panel.html"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

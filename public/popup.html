@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="stylesheet"
+      href="popup.css"
+    />
+  </head>
+  <body>
+    <div class="title">PR Mardown Previewer</div>
+    <div class="description">
+      Reatime(maybe..) Markdown preview while writing pull request on Github.
+    </div>
+
+    <div class="switch-container">
+      <span>Preview Panel Active</span>
+      <label class="switch">
+        <input
+          type="checkbox"
+          id="panel-toggle"
+        />
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div class="meta-info-container">
+      <div>
+        Author:
+        <a
+          href="https://github.com/hexdrinker"
+          target="_blank"
+          >@hexdrinker</a
+        >
+      </div>
+      <div>Version: 1.0.0</div>
+      <div>License: MIT</div>
+    </div>
+
+    <script
+      type="module"
+      src="popup.js"
+    ></script>
+  </body>
+</html>

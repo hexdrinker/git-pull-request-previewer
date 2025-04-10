@@ -1,0 +1,45 @@
+{
+  "name": "git-pull-request-previewer",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build:content": "esbuild src/content.ts --bundle --outfile=dist/content.js --format=iife --minify",
+    "build:rollup": "rollup -c",
+    "build": "yarn build:content && yarn build:rollup"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexdrinker/git-pull-request-previewer.git"
+  },
+  "keywords": [
+    "github",
+    "pull request",
+    "preview",
+    "markdown",
+    "pull request previewer"
+  ],
+  "author": "hexdrinker",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hexdrinker/git-pull-request-previewer/issues"
+  },
+  "homepage": "https://github.com/hexdrinker/git-pull-request-previewer#readme",
+  "description": "",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.3",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/chrome": "^0.0.313",
+    "@types/node": "^22.14.0",
+    "esbuild": "^0.25.2",
+    "rollup": "^4.39.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "github-markdown-css": "^5.8.1",
+    "marked": "^15.0.8"
+  }
+}
