@@ -38,9 +38,7 @@ GitHub에서 PR을 작성할 때, "Preview" 탭을 누르지 않아도 실시간
 
 ### ▶ Chrome Web Store
 
-Waiting for the review to be completed...
-
-<!-- [👉 Install from Chrome Web Store](https://chrome.google.com/webstore/detail/) -->
+[👉 Install from Chrome Web Store](https://chromewebstore.google.com/detail/pull-request-markdown-pre/kelpookbapppipgjcmilifllhcfdnmmb?authuser=1&hl=ko)
 
 ---
 

@@ -3,7 +3,7 @@
   "name": "Pull Request Markdown Previewer",
   "version": "1.0.0",
   "description": "Realtime Markdown previewer while writing GitHub Pull Requests.",
-  "permissions": ["scripting", "activeTab", "storage"],
+  "permissions": ["activeTab", "storage"],
   "host_permissions": ["https://github.com/*"],
   "background": {
     "service_worker": "background.js"
