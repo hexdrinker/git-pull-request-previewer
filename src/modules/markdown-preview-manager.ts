@@ -1,12 +1,13 @@
 import { MarkdownRenderer } from "@/modules/markdown-renderer";
 import { PanelSizeController } from "@/modules/panel-size-controller";
 import { PanelPositionController } from "@/modules/panel-position-controller";
+import { PANEL_STATE_KEY } from "@/constants";
 
 /**
  * Manage markdown preview panel using ShadowDOM
  */
 export class MarkdownPreviewManager {
-  private previewEnabled: boolean = true;
+  private previewEnabled: boolean = false;
   private previewContainer: HTMLElement | null = null;
   private shadowRoot: ShadowRoot | null = null;
   private previewContent: HTMLElement | null = null;
@@ -14,8 +15,10 @@ export class MarkdownPreviewManager {
   private floatingButton: HTMLElement | null = null;
   private panelSizeController: PanelSizeController | null = null;
   private panelPositionController: PanelPositionController | null = null;
+
   constructor() {
     this.markdownRenderer = new MarkdownRenderer();
+    this.initPanelState();
   }
 
   /**
@@ -58,6 +61,17 @@ export class MarkdownPreviewManager {
     }
   }
 
+  private async initPanelState(): Promise<void> {
+    try {
+      const result = await chrome.storage.sync.get(PANEL_STATE_KEY);
+
+      this.previewEnabled =
+        PANEL_STATE_KEY in result ? result[PANEL_STATE_KEY] : true;
+    } catch (error) {
+      console.error("Failed to initialize panel state:", error);
+    }
+  }
+
   /**
    * Create preview container using ShadowDOM
    */
@@ -66,7 +80,8 @@ export class MarkdownPreviewManager {
     this.previewContainer.id = "markdown-preview-container";
     this.previewContainer.style.position = "absolute";
 
-    const width = Math.round(window.innerWidth * 0.38);
+    const width =
+      window.innerWidth > 575 ? 575 : Math.round(window.innerWidth * 0.38);
     const height = Math.round(window.innerHeight - 40);
     const left = Math.round((window.innerWidth - width) / 2);
     const top = Math.round((window.innerHeight - height) / 2);
@@ -676,6 +691,7 @@ export class MarkdownPreviewManager {
         this.floatingButton.style.display = "none";
       }
     } else {
+      console.log("test");
       this.previewContainer.style.display = "none";
       if (this.floatingButton) {
         this.floatingButton.style.display = "none";

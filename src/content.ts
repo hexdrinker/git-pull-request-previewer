@@ -110,7 +110,7 @@ class GitHubPullRequestPreviewerExtension {
     // 확장 프로그램 팝업에서 패널 상태 변경 메시지 처리
     chrome.runtime.onMessage.addListener(
       (message: any, sender, sendResponse) => {
-        if (message.type === "TOGGLE_PREVIEW_STATE") {
+        if (message.type === "TOGGLE_PANEL_STATE") {
           this.markdownPreviewManager.setPreviewEnabled(message.enabled);
           sendResponse({ success: true });
         }
