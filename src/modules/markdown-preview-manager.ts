@@ -1,5 +1,5 @@
 import { MarkdownRenderer } from "@/modules/markdown-renderer";
-import { PanelResizer } from "@/modules/panel-resizer";
+import { PanelSizeController } from "@/modules/panel-size-controller";
 import { PanelPositionController } from "@/modules/panel-position-controller";
 
 /**
@@ -12,7 +12,7 @@ export class MarkdownPreviewManager {
   private previewContent: HTMLElement | null = null;
   private markdownRenderer: MarkdownRenderer;
   private floatingButton: HTMLElement | null = null;
-  private panelResizer: PanelResizer | null = null;
+  private panelSizeController: PanelSizeController | null = null;
   private panelPositionController: PanelPositionController | null = null;
   constructor() {
     this.markdownRenderer = new MarkdownRenderer();
@@ -81,7 +81,7 @@ export class MarkdownPreviewManager {
     this.shadowRoot = this.previewContainer.attachShadow({ mode: "open" });
 
     this.initShadowDomContent();
-    this.initPanelResizer();
+    this.initPanelSizeController();
     this.initPanelPositionController();
   }
 
@@ -129,9 +129,9 @@ export class MarkdownPreviewManager {
   }
 
   /**
-   * Initialize panel resizer
+   * Initialize panel size controller
    */
-  private initPanelResizer(): void {
+  private initPanelSizeController(): void {
     if (!this.previewContainer || !this.shadowRoot) return;
 
     const previewPanel = this.shadowRoot.querySelector(
@@ -140,11 +140,14 @@ export class MarkdownPreviewManager {
 
     if (!previewPanel) return;
 
-    this.panelResizer = new PanelResizer(previewPanel, this.previewContainer);
+    this.panelSizeController = new PanelSizeController(
+      previewPanel,
+      this.previewContainer,
+    );
   }
 
   /**
-   * Initialize panel dragger
+   * Initialize panel position controller
    */
   private initPanelPositionController(): void {
     if (!this.previewContainer || !this.shadowRoot) return;
@@ -730,9 +733,9 @@ export class MarkdownPreviewManager {
    * Clean up
    */
   public cleanup(): void {
-    if (this.panelResizer) {
-      this.panelResizer.cleanup();
-      this.panelResizer = null;
+    if (this.panelSizeController) {
+      this.panelSizeController.cleanup();
+      this.panelSizeController = null;
     }
 
     if (this.panelPositionController) {

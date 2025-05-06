@@ -1,4 +1,4 @@
-export class PanelResizer {
+export class PanelSizeController {
   private panel: HTMLElement;
   private container: HTMLElement;
   private minWidth: number = 300;
