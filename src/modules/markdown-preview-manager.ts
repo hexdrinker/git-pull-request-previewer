@@ -1,4 +1,5 @@
 import { MarkdownRenderer } from "@/modules/markdown-renderer";
+import { PanelResizer } from "@/modules/panel-resizer";
 
 /**
  * Manage markdown preview panel using ShadowDOM
@@ -10,6 +11,7 @@ export class MarkdownPreviewManager {
   private previewContent: HTMLElement | null = null;
   private markdownRenderer: MarkdownRenderer;
   private floatingButton: HTMLElement | null = null;
+  private panelResizer: PanelResizer | null = null;
 
   constructor() {
     this.markdownRenderer = new MarkdownRenderer();
@@ -75,6 +77,9 @@ export class MarkdownPreviewManager {
 
     // 3. Set style and content in ShadowDOM
     this.initShadowDomContent();
+
+    // 4. Initialize panel resizer
+    this.initPanelResizer();
   }
 
   /**
@@ -116,6 +121,21 @@ export class MarkdownPreviewManager {
 
     this.shadowRoot.appendChild(style);
     this.shadowRoot.appendChild(container);
+  }
+
+  /**
+   * Initialize panel resizer
+   */
+  private initPanelResizer(): void {
+    if (!this.previewContainer || !this.shadowRoot) return;
+
+    const previewPanel = this.shadowRoot.querySelector(
+      ".preview-panel",
+    ) as HTMLElement;
+
+    if (!previewPanel) return;
+
+    this.panelResizer = new PanelResizer(previewPanel);
   }
 
   /**
@@ -683,6 +703,11 @@ export class MarkdownPreviewManager {
    * Clean up
    */
   public cleanup(): void {
+    if (this.panelResizer) {
+      this.panelResizer.cleanup();
+      this.panelResizer = null;
+    }
+
     if (this.previewContainer) {
       document.body.removeChild(this.previewContainer);
       this.previewContainer = null;
