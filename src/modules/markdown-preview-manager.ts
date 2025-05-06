@@ -691,7 +691,6 @@ export class MarkdownPreviewManager {
         this.floatingButton.style.display = "none";
       }
     } else {
-      console.log("test");
       this.previewContainer.style.display = "none";
       if (this.floatingButton) {
         this.floatingButton.style.display = "none";

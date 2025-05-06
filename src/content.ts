@@ -19,7 +19,6 @@ class GitHubPullRequestPreviewerExtension {
    * Callback when github route changed
    */
   private onRouteChange(url: string): void {
-    console.log("Route changed to:", url);
     if (this.isPullRequestPage(url)) {
       this.initializePullRequestPage();
     } else {
@@ -28,7 +27,6 @@ class GitHubPullRequestPreviewerExtension {
   }
 
   private isPullRequestPage(url: string): boolean {
-    console.log(url);
     return (
       url.includes("/pull/") ||
       url.includes("/compare/") ||
