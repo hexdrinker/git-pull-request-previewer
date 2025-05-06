@@ -4,12 +4,18 @@ import copy from "rollup-plugin-copy";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
+import alias from "@rollup/plugin-alias";
+import path from "path";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 export default defineConfig({
   input: {
     background: "src/background.ts",
     popup: "src/popup.ts",
-    panel: "src/panel.ts",
   },
   output: {
     dir: "dist",
@@ -17,6 +23,9 @@ export default defineConfig({
     entryFileNames: "[name].js",
   },
   plugins: [
+    alias({
+      entries: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+    }),
     nodeResolve(),
     commonjs(),
     typescript({ tsconfig: "./tsconfig.json" }),
