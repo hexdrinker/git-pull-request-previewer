@@ -1,9 +1,12 @@
-// src/background.ts
+/**
+ * Background Service Worker
+ */
 
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('pr previewer installed.')
-
-  chrome.storage.sync.set({
-    markdown_preview_panel_enabled: true,
-  })
-})
+chrome.runtime.onInstalled.addListener((details) => {
+  if (details.reason === "install") {
+    console.log("GitHub Pull Request Previewer is installed.");
+    chrome.storage.sync.set({ previewEnabled: true });
+  } else if (details.reason === "update") {
+    console.log("GitHub Pull Request Previewer is updated.");
+  }
+});
