@@ -23,7 +23,9 @@
       "matches": [
         "https://github.com/*/*/compare/*",
         "https://github.com/*/*/pull/*",
-        "https://github.com/*/pull/*"
+        "https://github.com/*/pull/*",
+        "https://github.com/*/*/pulls",
+        "https://github.com/*/*/pulls?*"
       ],
       "js": ["content.js"]
     }
