@@ -1,5 +1,6 @@
 import { MarkdownRenderer } from "@/modules/markdown-renderer";
 import { PanelResizer } from "@/modules/panel-resizer";
+import { PanelPositionController } from "@/modules/panel-position-controller";
 
 /**
  * Manage markdown preview panel using ShadowDOM
@@ -12,7 +13,7 @@ export class MarkdownPreviewManager {
   private markdownRenderer: MarkdownRenderer;
   private floatingButton: HTMLElement | null = null;
   private panelResizer: PanelResizer | null = null;
-
+  private panelPositionController: PanelPositionController | null = null;
   constructor() {
     this.markdownRenderer = new MarkdownRenderer();
   }
@@ -63,23 +64,25 @@ export class MarkdownPreviewManager {
   private createPreviewContainer(): void {
     this.previewContainer = document.createElement("div");
     this.previewContainer.id = "markdown-preview-container";
-    this.previewContainer.style.position = "fixed";
-    this.previewContainer.style.top = "20px";
-    this.previewContainer.style.bottom = "20px";
-    this.previewContainer.style.right = "20px";
-    this.previewContainer.style.width = "38%";
-    this.previewContainer.style.height = "calc(100% - 40px)";
+    this.previewContainer.style.position = "absolute";
+
+    const width = Math.round(window.innerWidth * 0.38);
+    const height = Math.round(window.innerHeight - 40);
+    const left = Math.round((window.innerWidth - width) / 2);
+    const top = Math.round((window.innerHeight - height) / 2);
+
+    this.previewContainer.style.top = `${top}px`;
+    this.previewContainer.style.left = `${left}px`;
+    this.previewContainer.style.width = `${width}px`;
+    this.previewContainer.style.height = `${height}px`;
     this.previewContainer.style.zIndex = "9999";
     document.body.appendChild(this.previewContainer);
 
-    // 2. Create ShadowDOM
     this.shadowRoot = this.previewContainer.attachShadow({ mode: "open" });
 
-    // 3. Set style and content in ShadowDOM
     this.initShadowDomContent();
-
-    // 4. Initialize panel resizer
     this.initPanelResizer();
+    this.initPanelPositionController();
   }
 
   /**
@@ -99,6 +102,8 @@ export class MarkdownPreviewManager {
     // 3. header
     const header = document.createElement("div");
     header.className = "preview-header";
+
+    header.style.userSelect = "none";
 
     const title = document.createElement("h3");
     title.textContent = "Pull Request Previewer";
@@ -135,7 +140,29 @@ export class MarkdownPreviewManager {
 
     if (!previewPanel) return;
 
-    this.panelResizer = new PanelResizer(previewPanel);
+    this.panelResizer = new PanelResizer(previewPanel, this.previewContainer);
+  }
+
+  /**
+   * Initialize panel dragger
+   */
+  private initPanelPositionController(): void {
+    if (!this.previewContainer || !this.shadowRoot) return;
+
+    const previewPanel = this.shadowRoot.querySelector(
+      ".preview-panel",
+    ) as HTMLElement;
+    const headerElement = this.shadowRoot.querySelector(
+      ".preview-header",
+    ) as HTMLElement;
+
+    if (previewPanel && headerElement && this.previewContainer) {
+      this.panelPositionController = new PanelPositionController(
+        previewPanel,
+        headerElement,
+        this.previewContainer,
+      );
+    }
   }
 
   /**
@@ -706,6 +733,11 @@ export class MarkdownPreviewManager {
     if (this.panelResizer) {
       this.panelResizer.cleanup();
       this.panelResizer = null;
+    }
+
+    if (this.panelPositionController) {
+      this.panelPositionController.cleanup();
+      this.panelPositionController = null;
     }
 
     if (this.previewContainer) {

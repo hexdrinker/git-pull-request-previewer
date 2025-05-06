@@ -1,5 +1,6 @@
 export class PanelResizer {
   private panel: HTMLElement;
+  private container: HTMLElement;
   private minWidth: number = 300;
   private minHeight: number = 200;
   private isResizing: boolean = false;
@@ -16,8 +17,9 @@ export class PanelResizer {
 
   private readonly handleSize: number = 6;
 
-  constructor(panel: HTMLElement) {
+  constructor(panel: HTMLElement, container: HTMLElement) {
     this.panel = panel;
+    this.container = container;
 
     this.boundMouseMove = this.handleMouseMove.bind(this);
     this.boundMouseUp = this.handleMouseUp.bind(this);
@@ -47,10 +49,8 @@ export class PanelResizer {
       handle.className = `resize-handle resize-handle-${edge}`;
       handle.dataset.edge = edge;
 
-      // 핸들 스타일 설정
       this.applyHandleStyles(handle, edge);
 
-      // 패널에 핸들 추가
       this.panel.appendChild(handle);
     });
   }
@@ -209,6 +209,7 @@ export class PanelResizer {
           maxWidth,
         );
         this.panel.style.width = `${newWidth}px`;
+        this.container.style.width = `${newWidth}px`;
         break;
 
       case "bottom":
@@ -217,6 +218,7 @@ export class PanelResizer {
           maxHeight,
         );
         this.panel.style.height = `${newHeight}px`;
+        this.container.style.height = `${newHeight}px`;
         break;
 
       case "left":
@@ -229,6 +231,8 @@ export class PanelResizer {
 
         this.panel.style.width = `${newWidth}px`;
         this.panel.style.left = `${newLeft}px`;
+        this.container.style.width = `${newWidth}px`;
+        this.container.style.left = `${newLeft}px`;
         break;
 
       case "top":
@@ -244,6 +248,8 @@ export class PanelResizer {
 
         this.panel.style.height = `${newHeight}px`;
         this.panel.style.top = `${newTop}px`;
+        this.container.style.height = `${newHeight}px`;
+        this.container.style.top = `${newTop}px`;
         break;
 
       case "top-left":
@@ -265,6 +271,10 @@ export class PanelResizer {
         this.panel.style.height = `${newHeight}px`;
         this.panel.style.top = `${newTop}px`;
         this.panel.style.left = `${newLeft}px`;
+        this.container.style.width = `${newWidth}px`;
+        this.container.style.height = `${newHeight}px`;
+        this.container.style.top = `${newTop}px`;
+        this.container.style.left = `${newLeft}px`;
         break;
 
       case "top-right":
@@ -284,6 +294,9 @@ export class PanelResizer {
         this.panel.style.width = `${newWidth}px`;
         this.panel.style.height = `${newHeight}px`;
         this.panel.style.top = `${newTop}px`;
+        this.container.style.width = `${newWidth}px`;
+        this.container.style.height = `${newHeight}px`;
+        this.container.style.top = `${newTop}px`;
         break;
 
       case "bottom-left":
@@ -303,6 +316,9 @@ export class PanelResizer {
         this.panel.style.width = `${newWidth}px`;
         this.panel.style.height = `${newHeight}px`;
         this.panel.style.left = `${newLeft}px`;
+        this.container.style.width = `${newWidth}px`;
+        this.container.style.height = `${newHeight}px`;
+        this.container.style.left = `${newLeft}px`;
         break;
 
       case "bottom-right":
@@ -320,6 +336,8 @@ export class PanelResizer {
 
         this.panel.style.width = `${newWidth}px`;
         this.panel.style.height = `${newHeight}px`;
+        this.container.style.width = `${newWidth}px`;
+        this.container.style.height = `${newHeight}px`;
         break;
     }
   }
