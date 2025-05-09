@@ -7,6 +7,7 @@ export class PanelPositionController {
   private dragStartY: number = 0;
   private dragStartTop: number = 0;
   private dragStartLeft: number = 0;
+  private boundResize: () => void;
 
   private boundMouseMove: (e: Event) => void;
   private boundMouseUp: (e: Event) => void;
@@ -27,6 +28,7 @@ export class PanelPositionController {
 
     this.boundMouseMove = this.handleMouseMove.bind(this);
     this.boundMouseUp = this.handleMouseUp.bind(this);
+    this.boundResize = this.adjustPositionWithinBounds.bind(this);
 
     this.initialize();
   }
@@ -41,6 +43,7 @@ export class PanelPositionController {
     );
     document.addEventListener("mousemove", this.boundMouseMove);
     document.addEventListener("mouseup", this.boundMouseUp);
+    window.addEventListener("resize", this.boundResize);
   }
 
   private handleMouseDown(e: MouseEvent): void {
@@ -76,14 +79,10 @@ export class PanelPositionController {
     const newTop = this.dragStartTop + deltaY;
     const newLeft = this.dragStartLeft + deltaX;
 
-    // check if the panel is in the screen boundary
-    const rect = this.container.getBoundingClientRect();
-    const maxTop = window.innerHeight - rect.height - 20;
-    const maxLeft = window.innerWidth - rect.width - 20;
+    this.container.style.top = `${newTop}px`;
+    this.container.style.left = `${newLeft}px`;
 
-    // restrict the panel to the screen boundary
-    this.container.style.top = `${Math.max(20, Math.min(newTop, maxTop))}px`;
-    this.container.style.left = `${Math.max(20, Math.min(newLeft, maxLeft))}px`;
+    this.ensureInBounds();
   }
 
   private handleMouseUp(e: Event): void {
@@ -96,9 +95,31 @@ export class PanelPositionController {
     document.body.style.userSelect = "";
   }
 
+  private ensureInBounds(): void {
+    const rect = this.container.getBoundingClientRect();
+    let currentTop = parseInt(this.container.style.top, 10) || 0;
+    let currentLeft = parseInt(this.container.style.left, 10) || 0;
+
+    const maxTop = window.innerHeight - rect.height - 20;
+    const maxLeft = window.innerWidth - rect.width - 20;
+    const minTop = 20;
+    const minLeft = 20;
+
+    currentTop = Math.max(minTop, Math.min(currentTop, maxTop));
+    currentLeft = Math.max(minLeft, Math.min(currentLeft, maxLeft));
+
+    this.container.style.top = `${currentTop}px`;
+    this.container.style.left = `${currentLeft}px`;
+  }
+
+  private adjustPositionWithinBounds(): void {
+    this.ensureInBounds();
+  }
+
   public cleanup(): void {
     this.dragHandle.removeEventListener("mousedown", this.handleMouseDown);
     document.removeEventListener("mousemove", this.boundMouseMove);
     document.removeEventListener("mouseup", this.boundMouseUp);
+    window.removeEventListener("resize", this.boundResize);
   }
 }
