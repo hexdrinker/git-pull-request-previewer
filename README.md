@@ -16,10 +16,19 @@ GitHub에서 PR을 작성할 때, "Preview" 탭을 누르지 않아도 실시간
 
 - Live GitHub-flavored markdown rendering  
   GitHub 스타일 마크다운 실시간 렌더링
-- Preview panel attached to the right side of the textarea  
-  입력창 우측에 떠있는 프리뷰 패널
+
+  ![update](./assets/update.gif)
+
+- Resizable and Movable Preview Panel
+  사이즈를 조정할 수 있고 위치를 옮길 수 있는 프리뷰 패널
+
+  ![control](./assets/control.gif)
+
 - Minimize / toggle visibility with one click  
   최소화 및 on/off 전환 버튼 제공
+
+  ![minimize](./assets/minimize.gif)
+
 - Lightweight, fast, and no login required  
   빠르고 가벼우며 로그인 없이 사용 가능
 
@@ -29,8 +38,6 @@ GitHub에서 PR을 작성할 때, "Preview" 탭을 누르지 않아도 실시간
 
 - Live preview for PR comments and review  
   PR 코멘트 영역에서도 미리보기 가능하도록 확장
-- Panel resizing & theme support  
-  프리뷰 패널 크기 조절 및 테마 지원
 
 ---
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pull Request Markdown Previewer",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Realtime Markdown previewer while writing GitHub Pull Requests.",
   "permissions": ["activeTab", "storage"],
   "host_permissions": ["https://github.com/*"],
