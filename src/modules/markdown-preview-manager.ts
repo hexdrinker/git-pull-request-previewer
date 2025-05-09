@@ -95,7 +95,7 @@ export class MarkdownPreviewManager {
 
     this.shadowRoot = this.previewContainer.attachShadow({ mode: "open" });
 
-    this.initShadowDomContent();
+    this.initShadowDomContent(width, height, left, top);
     this.initPanelSizeController();
     this.initPanelPositionController();
   }
@@ -103,7 +103,12 @@ export class MarkdownPreviewManager {
   /**
    * Initialize ShadowDOM content
    */
-  private initShadowDomContent(): void {
+  private initShadowDomContent(
+    width: number,
+    height: number,
+    left: number,
+    top: number,
+  ): void {
     if (!this.shadowRoot) return;
 
     // 1. styles
@@ -113,6 +118,10 @@ export class MarkdownPreviewManager {
     // 2. container
     const container = document.createElement("div");
     container.className = "preview-panel";
+    container.style.top = `${top}px`;
+    container.style.left = `${left}px`;
+    container.style.width = `${width}px`;
+    container.style.height = `${height}px`;
 
     // 3. header
     const header = document.createElement("div");
