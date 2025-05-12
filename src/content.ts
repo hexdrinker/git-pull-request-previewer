@@ -1,6 +1,11 @@
 import { MarkdownPreviewManager } from "@/modules/markdown-preview-manager";
 import { RouteObserver } from "@/modules/route-observer";
 
+interface TogglePanelMessage {
+  type: "TOGGLE_PANEL_STATE";
+  enabled: boolean;
+}
+
 /**
  * Main entry point
  */
@@ -77,10 +82,7 @@ class GitHubPullRequestPreviewerExtension {
           mutation.attributeName === "data-focus-visible-added"
         ) {
           const focused = textarea.getAttribute("data-focus-visible-added");
-          if (
-            focused !== null &&
-            this.markdownPreviewManager.isPreviewEnabled()
-          ) {
+          if (focused !== null && this.markdownPreviewManager.isPreviewEnabled()) {
             this.markdownPreviewManager.initializePreview(textarea);
           }
         }
@@ -107,7 +109,11 @@ class GitHubPullRequestPreviewerExtension {
   private initMessageListeners(): void {
     // 확장 프로그램 팝업에서 패널 상태 변경 메시지 처리
     chrome.runtime.onMessage.addListener(
-      (message: any, sender, sendResponse) => {
+      (
+        message: TogglePanelMessage,
+        _sender: chrome.runtime.MessageSender,
+        sendResponse: (response: { success: boolean }) => void,
+      ) => {
         if (message.type === "TOGGLE_PANEL_STATE") {
           this.markdownPreviewManager.setPreviewEnabled(message.enabled);
           sendResponse({ success: true });

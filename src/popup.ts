@@ -1,9 +1,7 @@
 import { PANEL_STATE_KEY } from "@/constants";
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const toggleCheckbox = document.getElementById(
-    "panel-toggle",
-  ) as HTMLInputElement;
+  const toggleCheckbox = document.getElementById("panel-toggle") as HTMLInputElement;
 
   const result = await chrome.storage.sync.get(PANEL_STATE_KEY);
   const isEnabled = PANEL_STATE_KEY in result ? result[PANEL_STATE_KEY] : true;

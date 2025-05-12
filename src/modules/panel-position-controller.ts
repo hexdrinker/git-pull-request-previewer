@@ -17,11 +17,7 @@ export class PanelPositionController {
    * @param dragHandle the drag handle element (usually the header)
    * @param container the container element that will actually move
    */
-  constructor(
-    panel: HTMLElement,
-    dragHandle: HTMLElement,
-    container: HTMLElement,
-  ) {
+  constructor(panel: HTMLElement, dragHandle: HTMLElement, container: HTMLElement) {
     this.panel = panel;
     this.dragHandle = dragHandle;
     this.container = container;
@@ -37,10 +33,7 @@ export class PanelPositionController {
     this.dragHandle.style.cursor = "grab";
     this.dragHandle.style.userSelect = "none";
 
-    this.dragHandle.addEventListener(
-      "mousedown",
-      this.handleMouseDown.bind(this),
-    );
+    this.dragHandle.addEventListener("mousedown", this.handleMouseDown.bind(this));
     document.addEventListener("mousemove", this.boundMouseMove);
     document.addEventListener("mouseup", this.boundMouseUp);
     window.addEventListener("resize", this.boundResize);

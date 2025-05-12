@@ -212,12 +212,7 @@ export class PanelSizeController {
   /**
    * Resize panel processing
    */
-  private resizePanel(
-    deltaX: number,
-    deltaY: number,
-    maxWidth: number,
-    maxHeight: number,
-  ): void {
+  private resizePanel(deltaX: number, deltaY: number, maxWidth: number, maxHeight: number): void {
     let newWidth = this.startWidth;
     let newHeight = this.startHeight;
     let newTop = this.startTop;
@@ -230,7 +225,7 @@ export class PanelSizeController {
 
     // process differently according to the currently selected edge
     switch (this.currentResizeEdge) {
-      case "right":
+      case "right": {
         // Left edge is fixed (newLeft = this.startLeft)
         // Top edge is fixed (newTop = this.startTop)
         newWidth = this.startWidth + deltaX;
@@ -238,8 +233,9 @@ export class PanelSizeController {
         newWidth = Math.min(newWidth, maxWidth); // maxWidth is the maximum width when expanding to the right
         // newLeft, newTop remain startLeft, startTop
         break;
+      }
 
-      case "bottom":
+      case "bottom": {
         // Top edge is fixed (newTop = this.startTop)
         // Left edge is fixed (newLeft = this.startLeft)
         newHeight = this.startHeight + deltaY;
@@ -247,77 +243,76 @@ export class PanelSizeController {
         newHeight = Math.min(newHeight, maxHeight); // maxHeight is the maximum height when expanding downwards
         // newLeft, newTop remain startLeft, startTop
         break;
+      }
 
-      case "left":
+      case "left": {
         // Right edge is fixed (fixedRightEdge)
         // Top edge is fixed (newTop = this.startTop)
-        let idealLeft = this.startLeft + deltaX;
-        idealLeft = Math.max(idealLeft, PADDING); // Left PADDING constraint
+        const leftIdealLeft = Math.max(this.startLeft + deltaX, PADDING);
 
-        newWidth = fixedRightEdge - idealLeft;
+        newWidth = fixedRightEdge - leftIdealLeft;
         newWidth = Math.max(this.minWidth, newWidth);
         newWidth = Math.min(newWidth, maxWidth); // maxWidth is the maximum width when shrinking/expanding to the left
 
         newLeft = fixedRightEdge - newWidth; // Recalculate newLeft based on the final width
         // newTop remains startTop
         break;
+      }
 
-      case "top":
+      case "top": {
         // Bottom edge is fixed (fixedBottomEdge)
         // Left edge is fixed (newLeft = this.startLeft)
-        let idealTop = this.startTop + deltaY;
-        idealTop = Math.max(idealTop, PADDING); // Top PADDING constraint
+        const topIdealTop = Math.max(this.startTop + deltaY, PADDING);
 
-        newHeight = fixedBottomEdge - idealTop;
+        newHeight = fixedBottomEdge - topIdealTop;
         newHeight = Math.max(this.minHeight, newHeight);
         newHeight = Math.min(newHeight, maxHeight); // maxHeight is the maximum height when shrinking/expanding upwards
 
         newTop = fixedBottomEdge - newHeight; // Recalculate newTop based on the final height
         // newLeft remains startLeft
         break;
+      }
 
-      case "top-left":
+      case "top-left": {
         // Bottom-right corner is fixed (fixedRightEdge, fixedBottomEdge)
-        let tl_idealLeft = this.startLeft + deltaX;
-        tl_idealLeft = Math.max(tl_idealLeft, PADDING);
-        let tl_idealTop = this.startTop + deltaY;
-        tl_idealTop = Math.max(tl_idealTop, PADDING);
+        const topLeftIdealLeft = Math.max(this.startLeft + deltaX, PADDING);
+        const topLeftIdealTop = Math.max(this.startTop + deltaY, PADDING);
 
-        newWidth = fixedRightEdge - tl_idealLeft;
+        newWidth = fixedRightEdge - topLeftIdealLeft;
         newWidth = Math.max(this.minWidth, newWidth);
         newWidth = Math.min(newWidth, maxWidth);
 
-        newHeight = fixedBottomEdge - tl_idealTop;
+        newHeight = fixedBottomEdge - topLeftIdealTop;
         newHeight = Math.max(this.minHeight, newHeight);
         newHeight = Math.min(newHeight, maxHeight);
 
         newLeft = fixedRightEdge - newWidth;
         newTop = fixedBottomEdge - newHeight;
         break;
+      }
 
-      case "top-right":
+      case "top-right": {
         // Bottom-left corner is fixed (this.startLeft, fixedBottomEdge)
         newWidth = this.startWidth + deltaX; // Left (this.startLeft) is fixed
         newWidth = Math.max(this.minWidth, newWidth);
         newWidth = Math.min(newWidth, maxWidth);
         // newLeft = this.startLeft; // Remains the same
 
-        let tr_idealTop = this.startTop + deltaY; // Bottom (fixedBottomEdge) is fixed reference
-        tr_idealTop = Math.max(tr_idealTop, PADDING);
+        const topRightIdealTop = Math.max(this.startTop + deltaY, PADDING);
 
-        newHeight = fixedBottomEdge - tr_idealTop;
+        newHeight = fixedBottomEdge - topRightIdealTop;
         newHeight = Math.max(this.minHeight, newHeight);
         newHeight = Math.min(newHeight, maxHeight);
 
         newTop = fixedBottomEdge - newHeight;
         break;
+      }
 
-      case "bottom-left":
+      case "bottom-left": {
         // Top-right corner is fixed (fixedRightEdge, this.startTop)
-        let bl_idealLeft = this.startLeft + deltaX; // Right (fixedRightEdge) is fixed reference
-        bl_idealLeft = Math.max(bl_idealLeft, PADDING);
+        const bottomLeftIdealLeft = Math.max(this.startLeft + deltaX, PADDING);
 
-        newWidth = fixedRightEdge - bl_idealLeft;
+        newWidth = fixedRightEdge - bottomLeftIdealLeft;
         newWidth = Math.max(this.minWidth, newWidth);
         newWidth = Math.min(newWidth, maxWidth);
 
@@ -328,8 +323,9 @@ export class PanelSizeController {
         newHeight = Math.min(newHeight, maxHeight);
         // newTop = this.startTop; // Remains the same
         break;
+      }
 
-      case "bottom-right":
+      case "bottom-right": {
         // Top-left corner is fixed (this.startLeft, this.startTop)
         newWidth = this.startWidth + deltaX; // Left (this.startLeft) is fixed
         newWidth = Math.max(this.minWidth, newWidth);
@@ -340,17 +336,7 @@ export class PanelSizeController {
         newHeight = Math.max(this.minHeight, newHeight);
         newHeight = Math.min(newHeight, maxHeight);
         // newTop = this.startTop; // Remains the same
-        break;
-        // Width (logic from case "right")
-        newWidth = this.startWidth + deltaX;
-        newWidth = Math.max(newWidth, this.minWidth);
-        newWidth = Math.min(newWidth, maxWidth); // maxWidth for right-edge
-
-        // Height (logic from case "bottom")
-        newHeight = this.startHeight + deltaY;
-        newHeight = Math.max(newHeight, this.minHeight);
-        newHeight = Math.min(newHeight, maxHeight); // maxHeight for bottom-edge
-        break;
+      }
     }
 
     // Update panel and container styles
@@ -368,7 +354,7 @@ export class PanelSizeController {
   /**
    * Mouse up event handler
    */
-  private handleMouseUp(e: Event): void {
+  private handleMouseUp(): void {
     if (!this.isResizing) return;
 
     // reset resizing state
@@ -392,10 +378,10 @@ export class PanelSizeController {
     // panel.style에서 직접 값을 읽어오고, 없다면 0으로 간주합니다.
     // 이는 handleMouseDown에서 this.startTop/Left를 초기화하는 방식과 일관성을 유지합니다.
     const currentPanelRect = this.panel.getBoundingClientRect(); // 실제 렌더링된 크기
-    let currentWidth = currentPanelRect.width;
-    let currentHeight = currentPanelRect.height;
-    let currentTop = parseInt(this.panel.style.top, 10) || 0;
-    let currentLeft = parseInt(this.panel.style.left, 10) || 0;
+    const currentWidth = currentPanelRect.width;
+    const currentHeight = currentPanelRect.height;
+    const currentTop = parseInt(this.panel.style.top, 10) || 0;
+    const currentLeft = parseInt(this.panel.style.left, 10) || 0;
 
     // 2. 목표 패널 크기를 계산합니다.
     // 뷰포트 내 가용 공간을 초과하지 않도록 하며, 최소 크기를 보장합니다.

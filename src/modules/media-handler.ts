@@ -78,8 +78,8 @@ export class MediaHandler {
       return `<div class="markdown-image-wrapper">
         <a href="${src}" target="_blank" rel="noopener noreferrer" class="markdown-image-link">
           <img${prefix}src="${src}"${suffix}${
-        !hasClass ? ' class="markdown-image"' : ""
-      }${!hasStyle ? ' style="max-width: 100%; border-radius: 6px;"' : ""}>
+            !hasClass ? ' class="markdown-image"' : ""
+          }${!hasStyle ? ' style="max-width: 100%; border-radius: 6px;"' : ""}>
         </a>
         ${alt ? `<p class="markdown-image-caption">${alt}</p>` : ""}
       </div>`;

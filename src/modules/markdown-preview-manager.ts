@@ -41,9 +41,7 @@ export class MarkdownPreviewManager {
    * Check if preview is visible
    */
   public isPreviewVisible(): boolean {
-    return (
-      !!this.previewContainer && this.previewContainer.style.display !== "none"
-    );
+    return !!this.previewContainer && this.previewContainer.style.display !== "none";
   }
 
   /**
@@ -65,8 +63,7 @@ export class MarkdownPreviewManager {
     try {
       const result = await chrome.storage.sync.get(PANEL_STATE_KEY);
 
-      this.previewEnabled =
-        PANEL_STATE_KEY in result ? result[PANEL_STATE_KEY] : true;
+      this.previewEnabled = PANEL_STATE_KEY in result ? result[PANEL_STATE_KEY] : true;
     } catch (error) {
       console.error("Failed to initialize panel state:", error);
     }
@@ -80,8 +77,7 @@ export class MarkdownPreviewManager {
     this.previewContainer.id = "markdown-preview-container";
     this.previewContainer.style.position = "absolute";
 
-    const width =
-      window.innerWidth > 575 ? 575 : Math.round(window.innerWidth * 0.38);
+    const width = window.innerWidth > 575 ? 575 : Math.round(window.innerWidth * 0.38);
     const height = Math.round(window.innerHeight - 40);
     const left = Math.round((window.innerWidth - width) / 2);
     const top = Math.round((window.innerHeight - height) / 2);
@@ -103,12 +99,7 @@ export class MarkdownPreviewManager {
   /**
    * Initialize ShadowDOM content
    */
-  private initShadowDomContent(
-    width: number,
-    height: number,
-    left: number,
-    top: number,
-  ): void {
+  private initShadowDomContent(width: number, height: number, left: number, top: number): void {
     if (!this.shadowRoot) return;
 
     // 1. styles
@@ -158,16 +149,11 @@ export class MarkdownPreviewManager {
   private initPanelSizeController(): void {
     if (!this.previewContainer || !this.shadowRoot) return;
 
-    const previewPanel = this.shadowRoot.querySelector(
-      ".preview-panel",
-    ) as HTMLElement;
+    const previewPanel = this.shadowRoot.querySelector(".preview-panel") as HTMLElement;
 
     if (!previewPanel) return;
 
-    this.panelSizeController = new PanelSizeController(
-      previewPanel,
-      this.previewContainer,
-    );
+    this.panelSizeController = new PanelSizeController(previewPanel, this.previewContainer);
   }
 
   /**
@@ -176,12 +162,8 @@ export class MarkdownPreviewManager {
   private initPanelPositionController(): void {
     if (!this.previewContainer || !this.shadowRoot) return;
 
-    const previewPanel = this.shadowRoot.querySelector(
-      ".preview-panel",
-    ) as HTMLElement;
-    const headerElement = this.shadowRoot.querySelector(
-      ".preview-header",
-    ) as HTMLElement;
+    const previewPanel = this.shadowRoot.querySelector(".preview-panel") as HTMLElement;
+    const headerElement = this.shadowRoot.querySelector(".preview-header") as HTMLElement;
 
     if (previewPanel && headerElement && this.previewContainer) {
       this.panelPositionController = new PanelPositionController(
