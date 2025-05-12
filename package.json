@@ -3,6 +3,8 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit",
     "build:content": "esbuild src/content.ts --bundle --outfile=dist/content.js --format=iife --minify",
     "build:rollup": "rollup -c",
     "build": "yarn build:content && yarn build:rollup"
@@ -32,12 +34,19 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@types/chrome": "^0.0.313",
     "@types/node": "^22.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.32.0",
+    "@typescript-eslint/parser": "^8.32.0",
     "esbuild": "^0.25.2",
+    "eslint": "^9.26.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "prettier": "^3.5.3",
     "rollup": "^4.39.0",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-typescript2": "^0.36.0",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.0"
   },
   "dependencies": {
     "github-markdown-css": "^5.8.1",
