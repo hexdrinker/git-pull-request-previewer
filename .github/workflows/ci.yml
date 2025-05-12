@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🧶 Set up Yarn
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "yarn"
+
+      - name: 📦 Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: ✅ Type check
+        run: yarn typecheck
+
+      - name: �� Lint check
+        run: yarn lint
+
+      - name: 🛠 Build check
+        run: yarn build
