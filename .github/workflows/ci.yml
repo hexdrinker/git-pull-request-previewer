@@ -24,7 +24,7 @@ jobs:
       - name: ✅ Type check
         run: yarn typecheck
 
-      - name: �� Lint check
+      - name: 🧹 Lint check
         run: yarn lint
 
       - name: 🛠 Build check
